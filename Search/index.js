@@ -21,7 +21,7 @@ var authConfig = {
    */
   roots: [
     {
-      id: 'root',
+      id: '',
       name: 'Sample1',
       pass: ''
     },
