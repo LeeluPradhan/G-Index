@@ -1,16 +1,16 @@
 var authConfig = {
-  siteName: "G-Index", // WebSite Name
-  version: "1.0", // VersionControl, do not modify manually
+  siteName: 'G-Index', // WebSite Name
+  version: '1.0', // VersionControl, do not modify manually
   // Only material!
-  theme: "material", // material  classic
+  theme: 'material', // material  classic
    //add themes color, darkmode
-  main_color: "", // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime yellow | amber orange | deep-orange | brown | greyblue-grey
-  accent_color: "", // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime | yellow | amber | orange | deep-orange
-  dark_theme: "", // true for dark theme
+  main_color: '', // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime yellow | amber orange | deep-orange | brown | greyblue-grey
+  accent_color: '', // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime | yellow | amber | orange | deep-orange
+  dark_theme: '', // true for dark theme
   // client_id & client_secret
-  client_id: "",
-  client_secret: "",
-  refresh_token: "", // Refresh token
+  client_id: '',
+  client_secret: '',
+  refresh_token: '', // Refresh token
 
   /**
    * Set up multiple Drives to display; add multiples by format
@@ -21,19 +21,19 @@ var authConfig = {
    */
   roots: [
     {
-      id: "root",
-      name: "Sample1",
-      pass: ""
+      id: 'root',
+      name: 'Sample1',
+      pass: ''
     },
     {
-      id: "drive_id",
-      name: "Sample2",
-      pass: "index"
+      id: 'drive_id',
+      name: 'Sample2',
+      pass: 'index'
     },
     {
-      id: "folder_id",
-      name: "Sample3",
-      pass: "index2"
+      id: 'folder_id',
+      name: 'Sample3',
+      pass: 'index2'
     }
   ],
   /**
