@@ -1,16 +1,16 @@
 var authConfig = {
-  "siteName": "G-Index", // WebSite Name
-  "version": "1.0", // VersionControl, do not modify manually
+  siteName: "G-Index", // WebSite Name
+  version: "1.0", // VersionControl, do not modify manually
   // Only material!
-  "theme": "material", // material  classic
+  theme: "material", // material  classic
    //add themes color, darkmode
-  "main_color": "", // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime yellow | amber orange | deep-orange | brown | greyblue-grey
-  "accent_color": "", // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime | yellow | amber | orange | deep-orange
-  "dark_theme": "", // True for dark theme
+  main_color: "", // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime yellow | amber orange | deep-orange | brown | greyblue-grey
+  accent_color: "", // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime | yellow | amber | orange | deep-orange
+  dark_theme: "", // true for dark theme
   // client_id & client_secret
-  "client_id": "",
-  "client_secret": "",
-  "refresh_token": "", // Refresh token
+  client_id: "",
+  client_secret: "",
+  refresh_token: "", // Refresh token
 
   /**
    * Set up multiple Drives to display; add multiples by format
@@ -19,7 +19,7 @@ var authConfig = {
    * pass is the corresponding password, which can be set separately, or an empty string if no password is required
    * [Note] For the disk whose id is set to the subfolder id, the search function will not be supported (it does not affect other disks)
    */
-  "roots": [
+  roots: [
     {
       id: "root",
       name: "Sample1",
@@ -42,16 +42,16 @@ var authConfig = {
     * If the set value is too small, the incremental loading (page loading) of the scroll bar of the file list page will be invalid
     * Another effect of this value is that if the number of files in the directory is greater than this setting (that is, multiple pages need to be displayed), the results of the first listing directory will be cached.
    */
-  "files_list_page_size": 500,
+  files_list_page_size: 500,
   /**
    * The number displayed on each page of the search results page. [Recommended setting value is between 50 and 1000];
     * If the setting is greater than 1000, it will cause an error when requesting drive api;
     * If the set value is too small, it will cause the incremental loading (page loading) of the scroll bar of the search results page to fail;
     * The size of this value affects the response speed of the search operation
    */
-  "search_result_list_page_size": 50,
+  search_result_list_page_size: 50,
   // Confirm that cors can be opened
-  "enable_cors_file_down": false
+  enable_cors_file_down: false
   // user_drive_real_root_id
 };
 
