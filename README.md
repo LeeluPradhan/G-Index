@@ -30,7 +30,9 @@ https://d.rive.workers.dev/
 ## Deployment  
 
 ### Automated
-Coming Soon!
+
+Follow On screen Instructions!
+https://g-index.glitch.me
 
 ### Manual
 
