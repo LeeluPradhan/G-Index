@@ -27,19 +27,19 @@ var authConfig = {
     {
       id: '',
       name: 'Sample1',
-      user: 'admin'
+      user: 'admin',
       pass: ''
     },
     {
       id: 'drive_id',
       name: 'Sample2',
-      user: 'admin2'
+      user: 'admin2',
       pass: 'index'
     },
     {
       id: 'folder_id',
       name: 'Sample3',
-      user: 'admin3'
+      user: 'admin3',
       pass: 'index2'
     }
   ],
