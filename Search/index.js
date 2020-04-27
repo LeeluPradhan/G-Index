@@ -14,25 +14,32 @@ var authConfig = {
 
   /**
    * Set up multiple Drives to display; add multiples by format
-   * id can be team disk id, subfolder id, or "root" (representing the root directory of individual disk)
-   * name - The displayed name
-   * pass is the corresponding password, which can be set separately, or an empty string if no password is required
+   * [id] can be team disk id, subfolder id, or "root" (representing the root directory of personal disk);
+   * [name] The displayed name
+   * [user] Basic Auth username
+   * [pass] Basic Auth password
+   * Basic Auth of each disk can be set separately. Basic Auth takes effect on all paths under the disk, including subfolders, file chains on the disk, etc.
+   * No need for Basic Auth disk, just keep user and pass empty at the same time. (No need to set it directly)
    * [Note] For the disk whose id is set to the subfolder id, the search function will not be supported (it does not affect other disks)
    */
+  // It is possible to set only the password, only the user name, and the user name and password at the same time
   roots: [
     {
       id: '',
       name: 'Sample1',
+      user: 'admin'
       pass: ''
     },
     {
       id: 'drive_id',
       name: 'Sample2',
+      user: 'admin2'
       pass: 'index'
     },
     {
       id: 'folder_id',
       name: 'Sample3',
+      user: 'admin3'
       pass: 'index2'
     }
   ],
@@ -51,8 +58,16 @@ var authConfig = {
    */
   search_result_list_page_size: 50,
   // Confirm that cors can be opened
-  enable_cors_file_down: false
+  enable_cors_file_down: false,
   // user_drive_real_root_id
+  /**
+    * The above basic auth already contains the function of global protection in the disk. So by default, the password in the .password file is no longer authenticated;
+    * If you still need to verify the password in the .password file for certain directories based on global authentication, set this option to true;
+    * [Note] If the password verification of the .password file is enabled, the overhead of querying whether the .password file in the directory will be added each time the directory is listed.
+  */
+  
+  "enable_password_file_verify": false
+  
 };
 
 
@@ -211,7 +226,10 @@ async function handleRequest(request) {
   } catch (e) {
     return redirectToIndexPage()
   }
-
+  
+ // basic auth
+  for (const r = gd.basicAuthResponse(request); r;) return r;
+  
   path = path.replace(gd.url_path_prefix, '') || '/';
   if (request.method == 'POST') {
     return apiRequest(request, gd);
@@ -244,16 +262,15 @@ async function apiRequest(request, gd) {
   let option = {status: 200, headers: {'Access-Control-Allow-Origin': '*'}}
 
   if (path.substr(-1) == '/') {
-    let deferred_pass = gd.password(path);
     let form = await request.formData();
     // This can increase the speed of the first listing. The disadvantage is that if the password verification fails, the overhead of listing directories will still be incurred
     let deferred_list_result = gd.list(path, form.get('page_token'), Number(form.get('page_index')));
 
-    // check password
-    let password = await deferred_pass;
-    // console.log("dir password", password);
-    if (password != undefined && password != null && password != "") {
-      if (password.replace("\n", "") != form.get('password')) {
+   // check .password file, if `enable_password_file_verify` is true
+    if (authConfig['enable_password_file_verify']) {
+      let password = await gd.password(path);
+      // console.log("dir password", password);
+      if (password && password.replace("\n", "") !== form.get('password')) {
         let html = `{"error": {"code": 401,"message": "password error."}}`;
         return new Response(html, option);
       }
@@ -308,9 +325,9 @@ class googleDrive {
     this.id_path_cache = {};
     this.id_path_cache[this.root['id']] = '/';
     this.paths["/"] = this.root['id'];
-    if (this.root['pass'] != "") {
+    /*if (this.root['pass'] != "") {
       this.passwords['/'] = this.root['pass'];
-    }
+    }*/
     // this.init();
   }
 
@@ -350,7 +367,31 @@ class googleDrive {
       this.root_type = obj ? types.share_drive : types.sub_folder;
     }
   }
-
+/**
+   * Returns a response that requires authorization, or null
+   * @param request
+   * @returns {Response|null}
+   */
+  basicAuthResponse(request) {
+    const user = this.root.user || '',
+      pass = this.root.pass || '',
+      _401 = new Response('Unauthorized', {
+        headers: {'WWW-Authenticate': `Basic realm="goindex:drive:${this.order}"`},
+        status: 401
+      });
+    if (user || pass) {
+      const auth = request.headers.get('Authorization')
+      if (auth) {
+        try {
+          const [received_user, received_pass] = atob(auth.split(' ').pop()).split(':');
+          return (received_user === user && received_pass === pass) ? null : _401;
+        } catch (e) {
+        }
+      }
+    } else return null;
+    return _401;
+  }
+  
   async down(id, range = '', inline = false) {
     let url = `https://www.googleapis.com/drive/v3/files/${id}?alt=media`;
     let requestOption = await this.requestOption();
