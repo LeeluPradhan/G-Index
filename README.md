@@ -4,7 +4,7 @@
 
 ## SAMPLE
 
-https://d.rive.workers.dev/
+https://g-d.rive.workers.dev/
 
 ## Search Implemented
 - Features
