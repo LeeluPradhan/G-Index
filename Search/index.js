@@ -1,6 +1,6 @@
 var authConfig = {
   siteName: 'G-Index', // WebSite Name
-  version: '1.0', // VersionControl, do not modify manually
+  version: '2.0', // VersionControl, do not modify manually
   // Only material!
   theme: 'material', // material  classic
    //add themes color, darkmode
@@ -12,16 +12,19 @@ var authConfig = {
   client_secret: 'X4Z3ca8xfWDb1Voo-F9a7ZxJ',
   refresh_token: '', // Refresh token
 
-  /**
-   * Set up multiple Drives to display; add multiples by format
-   * [id] can be team disk id, subfolder id, or "root" (representing the root directory of personal disk);
-   * [name] The displayed name
-   * [user] Basic Auth username
-   * [pass] Basic Auth password
-   * Basic Auth of each disk can be set separately. Basic Auth takes effect on all paths under the disk, including subfolders, file chains on the disk, etc.
-   * No need for Basic Auth disk, just keep user and pass empty at the same time. (No need to set it directly)
-   * [Note] For the disk whose id is set to the subfolder id, the search function will not be supported (it does not affect other disks)
-   */
+ /**
+  * Set up multiple Drives to be displayed; add multiples by format
+  * [id]: It can be the team disk id, subfolder id, or "root" (representing the root directory of personal disk);
+  * [name]: the displayed name
+  * [user]: Basic Auth username
+  * [pass]: Basic Auth password
+  * [protect_file_link]: Whether Basic Auth is used to protect the file link, the default value (when not set) is false, that is, the file link is not protected (convenient for direct link download / external playback, etc.)
+  * Basic Auth of each disk can be set separately. Basic Auth protects all folder / subfolder paths in the disk by default
+  * [Note] By default, the file link is not protected, which can facilitate straight-chain download / external playback;
+  * If you want to protect the file link, you need to set protect_file_link to true. At this time, if you want to perform external playback and other operations, you need to replace host with user: pass @ host
+  * No need for Basic Auth disk, just keep user and pass empty at the same time. (No need to set it directly)
+  * [Note] For the disk whose id is set to the subfolder id, the search function will not be supported (it does not affect other disks).
+  */
   // It is possible to set only the password, only the user name, and the user name and password at the same time
   roots: [
     {
@@ -34,13 +37,15 @@ var authConfig = {
       id: 'drive_id',
       name: 'Sample2',
       user: 'admin2',
-      pass: 'index'
+      pass: 'index',
+      protect_file_link: true
     },
     {
       id: 'folder_id',
       name: 'Sample3',
       user: 'admin3',
-      pass: 'index2'
+      pass: 'index2',
+      protect_file_link: false
     }
   ],
   /**
@@ -228,27 +233,29 @@ async function handleRequest(request) {
   }
   
  // basic auth
-  for (const r = gd.basicAuthResponse(request); r;) return r;
+ // for (const r = gd.basicAuthResponse(request); r;) return r;
+  const basic_auth_res = gd.basicAuthResponse(request);
   
   path = path.replace(gd.url_path_prefix, '') || '/';
   if (request.method == 'POST') {
-    return apiRequest(request, gd);
+   return basic_auth_res || apiRequest(request, gd);
   }
 
   let action = url.searchParams.get('a');
 
   if (path.substr(-1) == '/' || action != null) {
-    return new Response(html(gd.order, {root_type: gd.root_type}), {
+   return basic_auth_res || new Response(html(gd.order, {root_type: gd.root_type}), {
       status: 200,
       headers: {'Content-Type': 'text/html; charset=utf-8'}
     });
   } else {
     if (path.split('/').pop().toLowerCase() == ".password") {
-      return new Response("", {status: 404});
+      return basic_auth_res || new Response("", {status: 404});
     }
     let file = await gd.file(path);
     let range = request.headers.get('Range');
     const inline_down = 'true' === url.searchParams.get('inline');
+    if (gd.root.protect_file_link && basic_auth_res) return basic_auth_res;
     return gd.down(file.id, range, inline_down);
   }
 }
@@ -312,6 +319,7 @@ class googleDrive {
     // Each disk corresponds to an order, corresponding to a gd instance
     this.order = order;
     this.root = authConfig.roots[order];
+    this.root.protect_file_link = this.root.protect_file_link || false;
     this.url_path_prefix = `/${order}:`;
     this.authConfig = authConfig;
     // TODO: The invalid refresh strategy of these caches can be formulated later
