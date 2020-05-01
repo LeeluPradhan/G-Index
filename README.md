@@ -1,6 +1,12 @@
 <p align="center"><img src="img/logo.png" alt="LOGO"></p>
+<br>
+<p align="center"><img src="img/preview.png" alt="PREVIEW"></p>
 
 # Google Drive Index + Guide + Team Drive Maker [If you have G-suite Account]
+
+## Full Guide to Deploy:
+
+[GUIDE](https://telegra.ph/G-Index-DarkMode--MultiAuth--English--TD-Maker--Custom-Domainga-Tutorial-04-29)
 
 ## SAMPLE
 
