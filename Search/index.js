@@ -7,7 +7,7 @@ var authConfig = {
   main_color: '', // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime yellow | amber orange | deep-orange | brown | greyblue-grey
   accent_color: '', // red | pink | purple | deep-purple | indigo | blue | light-blue | cyan | teal | green | light-green | lime | yellow | amber | orange | deep-orange
   dark_theme: false, // true for dark theme
-  // client_id & client_secret
+  // client_id & client_secret - PLEASE USE YOUR OWN!
   client_id: '202264815644.apps.googleusercontent.com',
   client_secret: 'X4Z3ca8xfWDb1Voo-F9a7ZxJ',
   refresh_token: '', // Refresh token
