@@ -35,7 +35,7 @@ https://g-d.rive.workers.dev/
 
 ## Deployment  
 
-### Automated
+### Automated [Under Construction]
 
 Follow On screen Instructions!
 https://g-index.glitch.me
