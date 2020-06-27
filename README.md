@@ -93,6 +93,4 @@ Note: `You must have permissions to create shared drive in your account. This do
 https://github.com/ParveenBhadooOfficial/Create-Google-Shared-Drive
 
 # CMKB
-![](https://photos.smugmug.com/photos/i-bWNH6DK/0/O/i-bWNH6DK.png)
-![](https://seeklogo.com/images/S/swach-bharat-abhiyan-logo-73C3F61EA8-seeklogo.com.png)
-![](https://upload.wikimedia.org/wikipedia/en/8/85/Digital_India_logo.png)
+![](https://github.com/LeeluPradhan/G-Index/raw/master/img/di.png)
