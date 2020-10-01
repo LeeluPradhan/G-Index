@@ -35,12 +35,6 @@ https://g-d.rive.workers.dev/
 
 ## Deployment  
 
-### Automated [Under Construction]
-
-Follow On screen Instructions!
-https://g-index.glitch.me
-
-### Manual
 
 1.Install `rclone` software locally  
 2.Follow [https://rclone.org/drive/]( https://rclone.org/drive/) bind a drive  
@@ -59,6 +53,9 @@ or
 
 ### Credits
 https://github.com/yanzai/goindex
+
+## Protect links
+If you want main links to be protected and share direct links without password then use code from [branch 2.0](https://github.com/LeeluPradhan/G-Index/tree/2.0)
 
 # Team Drive Maker
 ![TD Maker](https://github.com/LeeluPradhan/G-Index/raw/master/img/td-maker.png)
